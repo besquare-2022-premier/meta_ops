@@ -90,7 +90,8 @@ Payload:
   "password": "password",
   "password_again": "same pass",
   "address": "<optional>",
-  "telephone_number": "<optional>"
+  "telephone_number": "<optional>",
+  "token": "REDACTED"
 }
 ```
 
