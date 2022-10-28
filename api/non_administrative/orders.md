@@ -408,7 +408,14 @@ Example:
 <td>
 
 **Get the checkout url**  
-Payload: none
+Payload: none for default or specify the shipping address using the following payload
+
+```json
+{
+  "address": "address",
+  "residence": "address"
+}
+```
 
 Response:
 

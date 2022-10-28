@@ -1,4 +1,4 @@
-# Database: premier-project
+# Database: premier_project
 
 # Schema: premier
 
@@ -15,7 +15,7 @@
 - tel_no (bigint) - stores customers' telephone number
 - address (text) - stores customers' registered address
 - first_join (timestamp) - stores customers' registration timestamp
-- access_field (text) - stores users' access type (user/admin)
+- access_level (text) - stores users' access type (user/admin)
 - residence (text) - stores customers' country of residence
 
 ### 2. category
@@ -31,6 +31,7 @@
 - stock (integer) - stores the remaining stock for product
 - price (numeric) - stores the price for product
 - categoryid (FK) (bigint) - references table category (categoryid)
+- image (text) - image of product url
 
 ### 4. orders
 
@@ -43,7 +44,7 @@
 - orderid (PK, FK) (bigint) - references table orders (orderid)
 - productid (PK, FK) (bigint) - references table product (productid)
 - quantity (integer) - stores customers' quantity of product bought
-- price (numeric) - stores the price of products that customers hae to pay
+- price (numeric) - stores the price of products that customers has to pay
 
 ### 6. transaction
 
@@ -52,4 +53,6 @@
 - loginid (FK) (bigint) - references table user_details (loginid)
 - amount (numeric) - stores the amount paid by customers
 - payment_method (text) - stores the payment method used to pay by customers
-- tx_status (text) - stores the customers' transaction status
+- tx_status (created,failed,succeeded,cancelled) - stores the customers' transaction status
+- tx_time - time when tx is created
+- tx_settled - time when tx is settled (finalized)

@@ -32,14 +32,15 @@ The steps required to allocate a new error code is as below:
 
 ## **2xx Error Codes**
 
-| Code | Meaning                    |
-| ---- | -------------------------- |
-| 201  | Invalid verification code  |
-| 202  | Invalid CSRF token         |
-| 203  | Invalid access token       |
-| 204  | Rate limit exceeded        |
-| 205  | Cannot checkout empty cart |
-| 206  | Field is immutable         |
+| Code | Meaning                                               |
+| ---- | ----------------------------------------------------- |
+| 201  | Invalid verification code                             |
+| 202  | Invalid CSRF token                                    |
+| 203  | Invalid access token                                  |
+| 204  | Rate limit exceeded                                   |
+| 205  | Cannot checkout empty cart                            |
+| 206  | Field is immutable                                    |
+| 207  | Neither residence address nor shipping address is set |
 
 ## **3xx Error Codes**
 

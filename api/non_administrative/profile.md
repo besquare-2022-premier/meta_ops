@@ -11,6 +11,7 @@ This page contain the information about the profile access and manipulation endp
   "last_name": "Last Name", //mandatory
   "username": "username", //mandatory
   "address": "address", //optional
+  "residence": "", //optional
   "telephone_number": "<optional>", //optional
   "first_join": "ddd" //immutable
 }
