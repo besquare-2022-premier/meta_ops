@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS premier.user_details
     address text COLLATE pg_catalog."default",
     first_join timestamp without time zone,
     access_field text COLLATE pg_catalog."default",
+    residence text COLLATE pg_catalog."default",
     CONSTRAINT user_details_pkey PRIMARY KEY (loginid)
 )
 
@@ -32,6 +33,11 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS premier.user_details
     OWNER to postgres;
+
+CREATE UNIQUE INDEX IF NOT EXISTS user_details_index
+    ON premier.user_details USING btree
+    (loginid ASC NULLS LAST, username COLLATE pg_catalog."default" ASC NULLS LAST, email COLLATE pg_catalog."default" ASC NULLS LAST, tel_no ASC NULLS LAST)
+    TABLESPACE pg_default;
 
 -- CREATE TABLE premier.category
 CREATE TABLE IF NOT EXISTS premier.category
@@ -63,6 +69,11 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS premier.product
     OWNER to postgres;
 
+CREATE INDEX IF NOT EXISTS product_index
+    ON premier.product USING btree
+    (product_name COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
 -- CREATE TABLE premier.orders
 CREATE TABLE IF NOT EXISTS premier.orders
 (
@@ -85,6 +96,7 @@ CREATE TABLE IF NOT EXISTS premier.order_details
     orderid bigint NOT NULL,
     productid bigint NOT NULL,
     quantity integer,
+    price numeric,
     CONSTRAINT order_details_pkey PRIMARY KEY (orderid, productid),
     CONSTRAINT order_details_orderid_fkey FOREIGN KEY (orderid)
         REFERENCES premier.orders (orderid) MATCH SIMPLE
@@ -109,6 +121,7 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     loginid bigint NOT NULL,
     amount numeric,
     payment_method text COLLATE pg_catalog."default",
+    tx_status text COLLATE pg_catalog."default",
     CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
     CONSTRAINT transaction_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
@@ -119,6 +132,8 @@ CREATE TABLE IF NOT EXISTS premier.transaction
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+
 TABLESPACE pg_default;
+
 ALTER TABLE IF EXISTS premier.transaction
     OWNER to postgres;
