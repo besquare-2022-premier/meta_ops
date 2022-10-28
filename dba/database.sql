@@ -1,8 +1,4 @@
-# Step 1: Create Database
-## Database: premier-project
-### DROP DATABASE IF EXISTS "premier-project";
-
-```
+-- CREATE DATABASE
 CREATE DATABASE "premier-project"
     WITH 
     OWNER = postgres
@@ -11,22 +7,12 @@ CREATE DATABASE "premier-project"
     LC_CTYPE = 'en_US.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
-```
 
-# Step 2: Create Schema
-## SCHEMA: premier
-### DROP SCHEMA IF EXISTS premier ;
-
-```
+-- CREATE SCHEMA
 CREATE SCHEMA IF NOT EXISTS premier
     AUTHORIZATION postgres;
-```
 
-# Step 3: Create Tables
-## Table: premier.user_details
-### DROP TABLE IF EXISTS premier.user_details;
-
-```
+-- CREATE TABLE premier.user_details
 CREATE TABLE IF NOT EXISTS premier.user_details
 (
     loginid bigint NOT NULL,
@@ -38,17 +24,22 @@ CREATE TABLE IF NOT EXISTS premier.user_details
     tel_no bigint,
     address text COLLATE pg_catalog."default",
     first_join timestamp without time zone,
+    access_field text COLLATE pg_catalog."default",
+    residence text COLLATE pg_catalog."default",
     CONSTRAINT user_details_pkey PRIMARY KEY (loginid)
 )
+
 TABLESPACE pg_default;
+
 ALTER TABLE IF EXISTS premier.user_details
     OWNER to postgres;
-```
 
-## Table: premier.category
-### DROP TABLE IF EXISTS premier.category;
+CREATE UNIQUE INDEX IF NOT EXISTS user_details_index
+    ON premier.user_details USING btree
+    (loginid ASC NULLS LAST, username COLLATE pg_catalog."default" ASC NULLS LAST, email COLLATE pg_catalog."default" ASC NULLS LAST, tel_no ASC NULLS LAST)
+    TABLESPACE pg_default;
 
-```
+-- CREATE TABLE premier.category
 CREATE TABLE IF NOT EXISTS premier.category
 (
     categoryid bigint NOT NULL,
@@ -58,12 +49,8 @@ CREATE TABLE IF NOT EXISTS premier.category
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS premier.category
     OWNER to postgres;
-```
 
-## Table: premier.product
-### DROP TABLE IF EXISTS premier.product;
-
-```
+-- CREATE TABLE premier.product
 CREATE TABLE IF NOT EXISTS premier.product
 (
     productid bigint NOT NULL,
@@ -81,12 +68,13 @@ CREATE TABLE IF NOT EXISTS premier.product
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS premier.product
     OWNER to postgres;
-```
 
-## Table: premier.orders
-### DROP TABLE IF EXISTS premier.orders;
+CREATE INDEX IF NOT EXISTS product_index
+    ON premier.product USING btree
+    (product_name COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
 
-```
+-- CREATE TABLE premier.orders
 CREATE TABLE IF NOT EXISTS premier.orders
 (
     orderid bigint NOT NULL,
@@ -101,17 +89,14 @@ CREATE TABLE IF NOT EXISTS premier.orders
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS premier.orders
     OWNER to postgres;
-```
 
-## Table: premier.order_details
-### DROP TABLE IF EXISTS premier.order_details;
-
-```
+-- CREATE TABLE premier.order_details
 CREATE TABLE IF NOT EXISTS premier.order_details
 (
     orderid bigint NOT NULL,
     productid bigint NOT NULL,
     quantity integer,
+    price numeric,
     CONSTRAINT order_details_pkey PRIMARY KEY (orderid, productid),
     CONSTRAINT order_details_orderid_fkey FOREIGN KEY (orderid)
         REFERENCES premier.orders (orderid) MATCH SIMPLE
@@ -127,12 +112,8 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS premier.order_details
     OWNER to postgres;
-```
 
-## Table: premier.transaction
-### DROP TABLE IF EXISTS premier.transaction;
-
-```
+-- CREATE TABLE premier.transaction
 CREATE TABLE IF NOT EXISTS premier.transaction
 (
     transactionid bigint NOT NULL,
@@ -140,6 +121,7 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     loginid bigint NOT NULL,
     amount numeric,
     payment_method text COLLATE pg_catalog."default",
+    tx_status text COLLATE pg_catalog."default",
     CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
     CONSTRAINT transaction_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
@@ -150,7 +132,8 @@ CREATE TABLE IF NOT EXISTS premier.transaction
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+
 TABLESPACE pg_default;
+
 ALTER TABLE IF EXISTS premier.transaction
     OWNER to postgres;
-```
