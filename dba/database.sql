@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS premier.user_details
     pwd text COLLATE pg_catalog."default",
     tel_no bigint,
     address text COLLATE pg_catalog."default",
-    first_join timestamp without time zone,
+    first_join timestamp without time zone DEFAULT now(),
     access_field text COLLATE pg_catalog."default",
     residence text COLLATE pg_catalog."default",
     gender text COLLATE pg_catalog."default",
@@ -120,12 +120,12 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     transactionid bigint NOT NULL,
     orderid bigint NOT NULL,
     loginid bigint NOT NULL,
-    amount premier.currency,
+    amount numeric,
     payment_method text COLLATE pg_catalog."default",
-    tx_status premier.tx_status not null default ('created'),
-    tx_time timestamp without time zone not null default now(),
-    tx_settle_time timestamp without time zone,
-    CONSTRAINT transaction_pkey PRIMARY KEY (transactionid,orderid,loginid),
+    tx_status text COLLATE pg_catalog."default",
+    tx_time timestamp without time zone DEFAULT now(),
+    tx_settle_time timestamp without time zone DEFAULT now(),
+    CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
     CONSTRAINT transaction_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
         ON UPDATE NO ACTION
