@@ -22,13 +22,14 @@ The steps required to allocate a new error code is as below:
 
 ## **1xx Error Codes**
 
-| Code | Meaning                                         |
-| ---- | ----------------------------------------------- |
-| 101  | Invalid email address is provided to the system |
-| 102  | The product id given is not exists              |
-| 103  | Required fields is missing                      |
-| 104  | The order id given is not exists                |
-| 105  | Password do not match                           |
+| Code | Meaning                                               |
+| ---- | ----------------------------------------------------- |
+| 101  | Invalid email address is provided to the system       |
+| 102  | The product id given is not exists                    |
+| 103  | Required fields is missing                            |
+| 104  | The order id given is not exists                      |
+| 105  | Password do not match                                 |
+| 199  | Unknown content type, cannot be processed by endpoint |
 
 ## **2xx Error Codes**
 

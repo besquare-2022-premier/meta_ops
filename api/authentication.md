@@ -91,7 +91,10 @@ Payload:
   "password_again": "same pass",
   "address": "<optional>",
   "telephone_number": "<optional>",
-  "token": "REDACTED"
+  "gender": "male",
+  "birthday": "ddd",
+  "token": "REDACTED",
+  "secure_word": "ranndom"
 }
 ```
 
@@ -218,13 +221,50 @@ Example:
 </td><td>
 
 `/revoke`</td><td>Revoke the access token  
-Payload: none
+Payload: none  
 Response:
 
 <table>
 <tr><th>HTTP Status</th><th>Description</th></tr>
 <tr><td>200</td><td>
 Always succeeded
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+
+`POST`
+
+</td><td>
+
+`/secure-word`</td><td>Obtain the secure word for user  
+Payload:
+
+```json
+{
+  "username": "username or email"
+}
+```
+
+Response:
+
+<table>
+<tr><th>HTTP Status</th><th>Description</th></tr>
+<tr><td>200</td><td>
+Always succeeded    
+Example:
+
+```json
+{
+  "status": 0,
+  "message": "OK",
+  "secure_word": "kazuha"
+}
+```
+
 </td>
 </tr>
 </table>
