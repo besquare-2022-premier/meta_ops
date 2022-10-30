@@ -17,6 +17,8 @@
 - first_join (timestamp) - stores customers' registration timestamp
 - access_level (text) - stores users' access type (user/admin)
 - residence (text) - stores customers' country of residence
+- gender (text) - stores gender of customers
+- birthday (date) - stores customers' birthday
 
 ### 2. category
 
@@ -53,6 +55,12 @@
 - loginid (FK) (bigint) - references table user_details (loginid)
 - amount (numeric) - stores the amount paid by customers
 - payment_method (text) - stores the payment method used to pay by customers
-- tx_status (created,failed,succeeded,cancelled) - stores the customers' transaction status
-- tx_time - time when tx is created
-- tx_settled - time when tx is settled (finalized)
+- tx_status (text) - stores the customers' transaction status (created,failed,succeeded,cancelled)
+- tx_time (timestamp) - time when tx is created
+- tx_settled (timestamp) - time when tx is settled (finalized)
+
+### 7. user_data
+
+- loginid (FK) (bigint) - references table user_details (loginid)
+- items_bought (integer) - stores the number of products bought
+- money_spent_myr (numeric) - stores the amount of money spent in MYR

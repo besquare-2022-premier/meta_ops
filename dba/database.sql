@@ -20,16 +20,17 @@ CREATE TABLE IF NOT EXISTS premier.user_details
     loginid bigint NOT NULL,
     fname text COLLATE pg_catalog."default",
     lname text COLLATE pg_catalog."default",
-    username text COLLATE pg_catalog."default" NOT NULL,
-    email text COLLATE pg_catalog."default" NOT NULL,
-    pwd text COLLATE pg_catalog."default" NOT NULL,
-    tel_no varchar(15) check(tel_no ~ '^[0-9\.]+$'),
+    username text COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default",
+    pwd text COLLATE pg_catalog."default",
+    tel_no bigint,
     address text COLLATE pg_catalog."default",
-    first_join timestamp without time zone default(now()),
-    access_level premier.access_level DEFAULT ('normal'),
+    first_join timestamp without time zone,
+    access_field text COLLATE pg_catalog."default",
     residence text COLLATE pg_catalog."default",
-    CONSTRAINT user_details_pkey PRIMARY KEY (loginid),
-    CONSTRAINT user_details_unique_phone UNIQUE(tel_no)
+    gender text COLLATE pg_catalog."default",
+    birthday date,
+    CONSTRAINT user_details_pkey PRIMARY KEY (loginid)
 )
 
 TABLESPACE pg_default;
@@ -136,3 +137,20 @@ CREATE TABLE IF NOT EXISTS premier.transaction
 )
 
 TABLESPACE pg_default;
+
+-- CREATE TABLE premier.user_data
+CREATE TABLE IF NOT EXISTS premier.user_data
+(
+    loginid bigint NOT NULL,
+    items_bought integer,
+    money_spent_myr numeric,
+    CONSTRAINT user_data_loginid_fkey FOREIGN KEY (loginid)
+        REFERENCES premier.user_details (loginid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS premier.user_data
+    OWNER to postgres;
