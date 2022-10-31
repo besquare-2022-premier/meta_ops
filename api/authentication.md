@@ -109,7 +109,8 @@ Example:
 ```json
 {
   "status": 0,
-  "message": "Please check your email for the sign up instructions"
+  "message": "OK",
+  "token": "REDACTED"
 }
 ```
 
