@@ -92,7 +92,7 @@ Payload:
   "address": "<optional>",
   "telephone_number": "<optional>",
   "gender": "male",
-  "birthday": "ddd",
+  "birthday": "ddd<optional>",
   "secure_word": "ranndom"
 }
 ```
@@ -267,6 +267,22 @@ Example:
 
 </td>
 </tr>
+<tr>
+<td>400</td>
+<td>Emiited when there is the error inside the data
+
+Example:
+
+```json
+{
+  "status": 103,
+  "message": "Email required"
+}
+```
+
+</td>
+</tr>
+
 </table>
 </td>
 </tr>

@@ -35,8 +35,8 @@ Example:
 </td>
 </tr>
 <tr>
-<td>403</td>
-<td>Emited when the request fail
+<td>429</td>
+<td>Emited when the request fail with rate limit exceeded
 
 Example:
 

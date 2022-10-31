@@ -29,19 +29,22 @@ The steps required to allocate a new error code is as below:
 | 103  | Required fields is missing                            |
 | 104  | The order id given is not exists                      |
 | 105  | Password do not match                                 |
+| 106  | Invalid gender                                        |
 | 199  | Unknown content type, cannot be processed by endpoint |
 
 ## **2xx Error Codes**
 
-| Code | Meaning                                               |
-| ---- | ----------------------------------------------------- |
-| 201  | Invalid verification code                             |
-| 202  | Invalid CSRF token                                    |
-| 203  | Invalid access token                                  |
-| 204  | Rate limit exceeded                                   |
-| 205  | Cannot checkout empty cart                            |
-| 206  | Field is immutable                                    |
-| 207  | Neither residence address nor shipping address is set |
+| Code | Meaning                                                         |
+| ---- | --------------------------------------------------------------- |
+| 201  | Invalid verification code                                       |
+| 202  | Invalid CSRF token                                              |
+| 203  | Invalid access token                                            |
+| 204  | Rate limit exceeded                                             |
+| 205  | Cannot checkout empty cart                                      |
+| 206  | Field is immutable                                              |
+| 207  | Neither residence address nor shipping address is set           |
+| 208  | Email or username is already registered                         |
+| 209  | Cannot register and reauthenticate on the authenticated session |
 
 ## **3xx Error Codes**
 
