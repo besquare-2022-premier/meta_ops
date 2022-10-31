@@ -15,8 +15,7 @@ This page contain the information about the profile access and manipulation endp
   "telephone_number": "<optional>", //optional
   "first_join": "ddd", //immutable,
   "gender": "male", //mandatory
-  "birthday": "ddd", //optional,immutable
-  "secure_word": "sss" //immutable
+  "birthday": "ddd" //optional,immutable
 }
 ```
 
