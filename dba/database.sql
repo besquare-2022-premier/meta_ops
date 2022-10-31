@@ -17,22 +17,24 @@ CREATE DOMAIN premier.currency AS numeric not null check(value>0);
 -- CREATE TABLE premier.user_details
 CREATE TABLE IF NOT EXISTS premier.user_details
 (
-    loginid bigint NOT NULL,
+    loginid integer NOT NULL DEFAULT nextval('premier.user_details_loginid_seq'::regclass),
     fname text COLLATE pg_catalog."default",
     lname text COLLATE pg_catalog."default",
-    username text COLLATE pg_catalog."default",
-    email text COLLATE pg_catalog."default",
-    pwd text COLLATE pg_catalog."default",
-    tel_no bigint,
+    username text COLLATE pg_catalog."default" NOT NULL,
+    email text COLLATE pg_catalog."default" NOT NULL,
+    pwd text COLLATE pg_catalog."default" NOT NULL,
+    tel_no character varying(15) COLLATE pg_catalog."default",
     address text COLLATE pg_catalog."default",
     first_join timestamp without time zone DEFAULT now(),
-    access_field text COLLATE pg_catalog."default",
+    access_field premier.access_level DEFAULT 'normal'::premier.access_level,
     residence text COLLATE pg_catalog."default",
     gender text COLLATE pg_catalog."default",
     birthday date,
-    CONSTRAINT user_details_pkey PRIMARY KEY (loginid)
+    CONSTRAINT user_details_pkey PRIMARY KEY (loginid),
+    CONSTRAINT tel_no_unique UNIQUE (tel_no),
+    CONSTRAINT check_valid CHECK (tel_no::text ~ '^[0-9\.]+$'::text),
+    CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text)
 )
-
 TABLESPACE pg_default;
 
 CREATE UNIQUE INDEX IF NOT EXISTS user_details_index_username ON premier.user_details USING btree (
@@ -45,8 +47,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS user_details_index_email ON premier.user_detai
 -- CREATE TABLE premier.category
 CREATE TABLE IF NOT EXISTS premier.category
 (
-    categoryid bigint NOT NULL,
-    category_name text COLLATE pg_catalog."default",
+    categoryid integer NOT NULL DEFAULT nextval('premier.category_categoryid_seq'::regclass),
+    category_name text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT category_pkey PRIMARY KEY (categoryid)
 )
 TABLESPACE pg_default;
@@ -58,18 +60,19 @@ CREATE UNIQUE INDEX IF NOT EXISTS category_name_index ON premier.category USING 
 -- CREATE TABLE premier.product
 CREATE TABLE IF NOT EXISTS premier.product
 (
-    productid bigint NOT NULL,
+    productid integer NOT NULL DEFAULT nextval('premier.product_productid_seq'::regclass),
     product_name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
-    stock integer default(-1) check(stock>-1),
-    price premier.currency,
-    categoryid bigint,
-    image text COLLATE pg_catalog."default" NOT NULL DEFAULT(''),
+    stock integer DEFAULT '-1'::integer,
+    price numeric NOT NULL,
+    categoryid integer NOT NULL DEFAULT nextval('premier.product_categoryid_seq'::regclass),
+    image text COLLATE pg_catalog."default" NOT NULL DEFAULT ''::text,
     CONSTRAINT product_pkey PRIMARY KEY (productid),
     CONSTRAINT fk_product FOREIGN KEY (categoryid)
         REFERENCES premier.category (categoryid) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT product_stock_check CHECK (stock > '-1'::integer)
 )
 TABLESPACE pg_default;
 
@@ -81,11 +84,10 @@ CREATE INDEX IF NOT EXISTS product_index
 -- CREATE TABLE premier.orders
 CREATE TABLE IF NOT EXISTS premier.orders
 (
-    orderid bigint NOT NULL,
-    loginid bigint NOT NULL,
+    orderid integer NOT NULL DEFAULT nextval('premier.orders_orderid_seq'::regclass),
+    loginid integer NOT NULL DEFAULT nextval('premier.orders_loginid_seq'::regclass),
     ship_address text COLLATE pg_catalog."default" NOT NULL,
     country text COLLATE pg_catalog."default" NOT NULL,
-    
     CONSTRAINT orders_pkey PRIMARY KEY (orderid),
     CONSTRAINT fk_orders FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
@@ -97,8 +99,8 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.order_details
 CREATE TABLE IF NOT EXISTS premier.order_details
 (
-    orderid bigint NOT NULL,
-    productid bigint NOT NULL,
+    orderid integer NOT NULL DEFAULT nextval('premier.order_details_orderid_seq'::regclass),
+    productid integer NOT NULL DEFAULT nextval('premier.order_details_productid_seq'::regclass),
     quantity integer NOT NULL,
     price premier.currency,
     CONSTRAINT order_details_pkey PRIMARY KEY (orderid, productid),
@@ -117,12 +119,12 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.transaction
 CREATE TABLE IF NOT EXISTS premier.transaction
 (
-    transactionid bigint NOT NULL,
-    orderid bigint NOT NULL,
-    loginid bigint NOT NULL,
-    amount numeric,
+    transactionid integer NOT NULL DEFAULT nextval('premier.transaction_transactionid_seq'::regclass),
+    orderid integer NOT NULL DEFAULT nextval('premier.transaction_orderid_seq'::regclass),
+    loginid integer NOT NULL DEFAULT nextval('premier.transaction_loginid_seq'::regclass),
+    amount numeric NOT NULL,
     payment_method text COLLATE pg_catalog."default",
-    tx_status text COLLATE pg_catalog."default",
+    tx_status premier.tx_status,
     tx_time timestamp without time zone DEFAULT now(),
     tx_settle_time timestamp without time zone DEFAULT now(),
     CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
@@ -141,9 +143,9 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.user_data
 CREATE TABLE IF NOT EXISTS premier.user_data
 (
-    loginid bigint NOT NULL,
-    items_bought integer,
-    money_spent_myr numeric,
+    loginid integer NOT NULL DEFAULT nextval('premier.user_data_loginid_seq'::regclass),
+    items_bought integer DEFAULT 0,
+    money_spent_myr numeric DEFAULT 0,
     CONSTRAINT user_data_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -152,5 +154,20 @@ CREATE TABLE IF NOT EXISTS premier.user_data
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS premier.user_data
-    OWNER to postgres;
+-- CREATE TABLE premier.verification
+CREATE TABLE IF NOT EXISTS premier.verification
+(
+    verification_email text COLLATE pg_catalog."default" NOT NULL,
+    verification_code character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    expired timestamp without time zone DEFAULT (now() + '00:30:00'::interval),
+    CONSTRAINT verification_pkey PRIMARY KEY (verification_email)
+)
+
+TABLESPACE pg_default;
+
+CREATE INDEX IF NOT EXISTS verification_index
+    ON premier.verification USING btree
+    (verification_code COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+CREATE VIEW premier.valid_verification_codes AS SELECT * FROM premier.verification WHERE expired>=NOW();
