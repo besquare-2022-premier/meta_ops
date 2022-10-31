@@ -93,7 +93,6 @@ Payload:
   "telephone_number": "<optional>",
   "gender": "male",
   "birthday": "ddd",
-  "token": "REDACTED",
   "secure_word": "ranndom"
 }
 ```
