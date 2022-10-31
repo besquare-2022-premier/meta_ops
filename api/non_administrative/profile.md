@@ -13,7 +13,9 @@ This page contain the information about the profile access and manipulation endp
   "address": "address", //optional
   "residence": "", //optional
   "telephone_number": "<optional>", //optional
-  "first_join": "ddd" //immutable
+  "first_join": "ddd", //immutable,
+  "gender": "male", //mandatory
+  "birthday": "ddd" //optional,immutable
 }
 ```
 
