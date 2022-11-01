@@ -45,6 +45,7 @@ The steps required to allocate a new error code is as below:
 | 207  | Neither residence address nor shipping address is set           |
 | 208  | Email or username is already registered                         |
 | 209  | Cannot register and reauthenticate on the authenticated session |
+| 210  | One or more items are out of stock                              |
 
 ## **3xx Error Codes**
 
