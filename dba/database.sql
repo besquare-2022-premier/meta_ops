@@ -171,3 +171,13 @@ CREATE INDEX IF NOT EXISTS verification_index
     TABLESPACE pg_default;
 
 CREATE VIEW premier.valid_verification_codes AS SELECT * FROM premier.verification WHERE expired>=NOW();
+
+insert into premier.category(category_name) values ('shirts'), ('trousers'), ('underwear');
+insert into premier.category(category_name) values ('shoes');
+insert into premier.product(
+product_name, description,stock,price, categoryid
+) values (
+'nike shoes', 'very nice', 50, 79.8, 4 ),
+('adidas', 'good', 40, 10.0, 2),
+('underwear', 'very soft', 5, 5.40, 3)
+;
