@@ -1,11 +1,11 @@
 -- CREATE DATABASE
-CREATE DATABASE "premier_project"
-    WITH 
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
+-- CREATE DATABASE "premier_project"
+--     WITH 
+--     ENCODING = 'UTF8'
+--     LC_COLLATE = 'en_US.UTF-8'
+--     LC_CTYPE = 'en_US.UTF-8'
+--     TABLESPACE = pg_default
+--     CONNECTION LIMIT = -1;
 
 -- CREATE SCHEMA
 CREATE SCHEMA IF NOT EXISTS premier;
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS premier.user_details
     residence text COLLATE pg_catalog."default",
     gender text COLLATE pg_catalog."default",
     birthday date,
+    secure_word TEXT NOT NULL,
     CONSTRAINT user_details_pkey PRIMARY KEY (loginid),
     CONSTRAINT tel_no_unique UNIQUE (tel_no),
-    CONSTRAINT check_valid CHECK (tel_no::text ~ '^[0-9\.]+$'::text),
     CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text)
 )
 TABLESPACE pg_default;
@@ -171,6 +171,15 @@ CREATE INDEX IF NOT EXISTS verification_index
     TABLESPACE pg_default;
 
 CREATE VIEW premier.valid_verification_codes AS SELECT * FROM premier.verification WHERE expired>=NOW();
+
+CREATE TABLE premier.authentication_access_tokens (
+    access_token CHAR(20) PRIMARY KEY,
+    loginid integer NOT NULL,
+    expiry timestamp without time zone NOT NULL DEFAULT NOW()+ INTERVAL '1 day',
+    CONSTRAINT fk_loginid FOREIGN KEY(loginid) REFERENCES premier.user_details(loginid)
+);
+
+CREATE VIEW premier.valid_access_tokens AS (SELECT * FROM premier.authentication_access_tokens WHERE expiry>=NOW());
 
 insert into premier.category(category_name) values ('shirts'), ('trousers'), ('underwear');
 insert into premier.category(category_name) values ('shoes');
