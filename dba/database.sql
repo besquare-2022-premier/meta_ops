@@ -99,8 +99,8 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.order_details
 CREATE TABLE IF NOT EXISTS premier.order_details
 (
-    orderid serial NOT NULL,
-    productid serial NOT NULL,
+    orderid integer NOT NULL,
+    productid integer NOT NULL,
     quantity integer NOT NULL,
     price premier.currency,
     CONSTRAINT order_details_pkey PRIMARY KEY (orderid, productid),
