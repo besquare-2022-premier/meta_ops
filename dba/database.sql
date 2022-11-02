@@ -17,7 +17,7 @@ CREATE DOMAIN premier.currency AS numeric not null check(value>0);
 -- CREATE TABLE premier.user_details
 CREATE TABLE IF NOT EXISTS premier.user_details
 (
-    loginid integer NOT NULL DEFAULT nextval('premier.user_details_loginid_seq'::regclass),
+    loginid serial NOT NULL,
     fname text COLLATE pg_catalog."default",
     lname text COLLATE pg_catalog."default",
     username text COLLATE pg_catalog."default" NOT NULL,
@@ -47,7 +47,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS user_details_index_email ON premier.user_detai
 -- CREATE TABLE premier.category
 CREATE TABLE IF NOT EXISTS premier.category
 (
-    categoryid integer NOT NULL DEFAULT nextval('premier.category_categoryid_seq'::regclass),
+    categoryid serial NOT NULL,
     category_name text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT category_pkey PRIMARY KEY (categoryid)
 )
@@ -60,12 +60,12 @@ CREATE UNIQUE INDEX IF NOT EXISTS category_name_index ON premier.category USING 
 -- CREATE TABLE premier.product
 CREATE TABLE IF NOT EXISTS premier.product
 (
-    productid integer NOT NULL DEFAULT nextval('premier.product_productid_seq'::regclass),
+    productid serial NOT NULL,
     product_name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
     stock integer DEFAULT '-1'::integer,
     price numeric NOT NULL,
-    categoryid integer NOT NULL DEFAULT nextval('premier.product_categoryid_seq'::regclass),
+    categoryid integer NOT NULL,
     image text COLLATE pg_catalog."default" NOT NULL DEFAULT ''::text,
     CONSTRAINT product_pkey PRIMARY KEY (productid),
     CONSTRAINT fk_product FOREIGN KEY (categoryid)
@@ -84,8 +84,8 @@ CREATE INDEX IF NOT EXISTS product_index
 -- CREATE TABLE premier.orders
 CREATE TABLE IF NOT EXISTS premier.orders
 (
-    orderid integer NOT NULL DEFAULT nextval('premier.orders_orderid_seq'::regclass),
-    loginid integer NOT NULL DEFAULT nextval('premier.orders_loginid_seq'::regclass),
+    orderid serial NOT NULL,
+    loginid integer NOT NULL,
     ship_address text COLLATE pg_catalog."default" NOT NULL,
     country text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT orders_pkey PRIMARY KEY (orderid),
@@ -99,8 +99,8 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.order_details
 CREATE TABLE IF NOT EXISTS premier.order_details
 (
-    orderid integer NOT NULL DEFAULT nextval('premier.order_details_orderid_seq'::regclass),
-    productid integer NOT NULL DEFAULT nextval('premier.order_details_productid_seq'::regclass),
+    orderid integer NOT NULL,
+    productid integer NOT NULL,
     quantity integer NOT NULL,
     price premier.currency,
     CONSTRAINT order_details_pkey PRIMARY KEY (orderid, productid),
@@ -119,9 +119,9 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.transaction
 CREATE TABLE IF NOT EXISTS premier.transaction
 (
-    transactionid integer NOT NULL DEFAULT nextval('premier.transaction_transactionid_seq'::regclass),
-    orderid integer NOT NULL DEFAULT nextval('premier.transaction_orderid_seq'::regclass),
-    loginid integer NOT NULL DEFAULT nextval('premier.transaction_loginid_seq'::regclass),
+    transactionid serial NOT NULL,
+    orderid integer NOT NULL,
+    loginid integer NOT NULL,
     amount numeric NOT NULL,
     payment_method text COLLATE pg_catalog."default",
     tx_status premier.tx_status,
@@ -143,7 +143,7 @@ TABLESPACE pg_default;
 -- CREATE TABLE premier.user_data
 CREATE TABLE IF NOT EXISTS premier.user_data
 (
-    loginid integer NOT NULL DEFAULT nextval('premier.user_data_loginid_seq'::regclass),
+    loginid integer NOT NULL,
     items_bought integer DEFAULT 0,
     money_spent_myr numeric DEFAULT 0,
     CONSTRAINT user_data_loginid_fkey FOREIGN KEY (loginid)
