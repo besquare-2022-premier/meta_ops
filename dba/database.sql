@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     payment_method text COLLATE pg_catalog."default",
     tx_status premier.tx_status default  'created',
     tx_time timestamp without time zone DEFAULT now(),
+    tx_reference text NULL,
     tx_settle_time timestamp without time zone ,
     CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
     CONSTRAINT transaction_loginid_fkey FOREIGN KEY (loginid)
