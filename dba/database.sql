@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS premier.product
         REFERENCES premier.category (categoryid) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT product_stock_check CHECK (stock > '-1'::integer)
+    CONSTRAINT product_stock_check CHECK (stock >= '-1'::integer)
 )
 TABLESPACE pg_default;
 
@@ -124,9 +124,9 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     loginid integer NOT NULL,
     amount integer NOT NULL,
     payment_method text COLLATE pg_catalog."default",
-    tx_status premier.tx_status,
+    tx_status premier.tx_status default  'created',
     tx_time timestamp without time zone DEFAULT now(),
-    tx_settle_time timestamp without time zone DEFAULT now(),
+    tx_settle_time timestamp without time zone ,
     CONSTRAINT transaction_pkey PRIMARY KEY (transactionid),
     CONSTRAINT transaction_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
