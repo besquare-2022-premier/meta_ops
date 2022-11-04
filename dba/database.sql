@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS premier.product
     product_name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
     stock integer DEFAULT '-1'::integer,
-    price numeric NOT NULL,
+    price integer NOT NULL,
     categoryid integer NOT NULL,
     image text COLLATE pg_catalog."default" NOT NULL DEFAULT ''::text,
     CONSTRAINT product_pkey PRIMARY KEY (productid),
@@ -190,3 +190,14 @@ product_name, description,stock,price, categoryid
 ('adidas', 'good', 40, 10.0, 2),
 ('underwear', 'very soft', 5, 5.40, 3)
 ;
+
+CREATE TYPE premier.rating AS ENUM ('1','2','3','4','5');
+
+CREATE TABLE premier.product_review
+(
+    transactionid integer NOT NULL,
+    product_rating premier.rating,
+    product_review text NOT NULL,
+    CONSTRAINT product_review_fkey FOREIGN KEY (transactionid)
+        REFERENCES premier.transaction (transactionid)
+);
