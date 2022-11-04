@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS premier.user_data
 (
     loginid integer NOT NULL,
     items_bought integer DEFAULT 0,
-    money_spent_myr numeric DEFAULT 0,
+    money_spent_myr integer DEFAULT 0,
     CONSTRAINT user_data_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
         ON UPDATE NO ACTION
