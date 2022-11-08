@@ -182,15 +182,6 @@ CREATE TABLE premier.authentication_access_tokens (
 
 CREATE VIEW premier.valid_access_tokens AS (SELECT * FROM premier.authentication_access_tokens WHERE expiry>=NOW());
 
-insert into premier.category(category_name) values ('shirts'), ('trousers'), ('underwear');
-insert into premier.category(category_name) values ('shoes');
-insert into premier.product(
-product_name, description,stock,price, categoryid
-) values (
-'nike shoes', 'very nice', 50, 79.8, 4 ),
-('adidas', 'good', 40, 10.0, 2),
-('underwear', 'very soft', 5, 5.40, 3)
-;
 
 CREATE TYPE premier.rating AS ENUM ('1','2','3','4','5');
 
@@ -202,3 +193,7 @@ CREATE TABLE premier.product_review
     CONSTRAINT product_review_fkey FOREIGN KEY (transactionid)
         REFERENCES premier.transaction (transactionid)
 );
+
+-- Ingest the data
+\copy premier.category FROM './categories.csv'
+\copy premier.product FROM './product.csv'
