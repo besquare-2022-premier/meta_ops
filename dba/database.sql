@@ -187,11 +187,15 @@ CREATE TYPE premier.rating AS ENUM ('1','2','3','4','5');
 
 CREATE TABLE premier.product_review
 (
-    transactionid integer NOT NULL,
+    productid integer NOT NULL,
+    loginid integer NOT NULL,
     product_rating premier.rating,
     product_review text NOT NULL,
-    CONSTRAINT product_review_fkey FOREIGN KEY (transactionid)
-        REFERENCES premier.transaction (transactionid)
+    review_time timestamp DEFAULT now(),
+    CONSTRAINT product_review_fkey FOREIGN KEY (productid)
+        REFERENCES premier.product (productid),
+    CONSTRAINT product_review_loginid_fkey FOREIGN KEY (loginid)
+        REFERENCES premier.user_details (loginid)
 );
 
 -- Ingest the data
