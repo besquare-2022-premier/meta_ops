@@ -195,5 +195,5 @@ CREATE TABLE premier.product_review
 );
 
 -- Ingest the data
-\copy premier.category FROM './categories.csv'
-\copy premier.product FROM './product.csv'
+\copy premier.category FROM './categories.csv' csv
+\copy premier.product FROM './products.csv' csv
