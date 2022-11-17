@@ -201,3 +201,9 @@ CREATE TABLE premier.product_review
 -- Ingest the data
 \copy premier.category FROM './categories.csv' csv
 \copy premier.product FROM './products.csv' csv
+
+create or replace procedure premier.nuke_invalids() language plpgsql as $$
+begin
+delete from premier.authentication_access_tokens where expiry<NOW();
+delete from premier.verification where expired < NOW();
+end;$$;
