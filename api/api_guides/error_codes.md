@@ -30,6 +30,7 @@ The steps required to allocate a new error code is as below:
 | 104  | The order id given is not exists                      |
 | 105  | Password do not match                                 |
 | 106  | Invalid gender                                        |
+| 107  | Not existant topic or message                         |
 | 199  | Unknown content type, cannot be processed by endpoint |
 
 ## **2xx Error Codes**

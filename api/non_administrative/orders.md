@@ -186,7 +186,8 @@ Example:
     "product": "id",
     "product_name": "",
     "quantity": 200,
-    "unit_price": 1200
+    "unit_price": 1200,
+    "available": false
   }
 ]
 ```
