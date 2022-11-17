@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS premier.user_data
 (
     loginid integer NOT NULL,
     items_bought integer DEFAULT 0,
-    money_spent_myr numeric DEFAULT 0,
+    money_spent_myr integer DEFAULT 0,
     CONSTRAINT user_data_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -187,11 +187,15 @@ CREATE TYPE premier.rating AS ENUM ('1','2','3','4','5');
 
 CREATE TABLE premier.product_review
 (
-    transactionid integer NOT NULL,
+    productid integer NOT NULL,
+    loginid integer NOT NULL,
     product_rating premier.rating,
     product_review text NOT NULL,
-    CONSTRAINT product_review_fkey FOREIGN KEY (transactionid)
-        REFERENCES premier.transaction (transactionid)
+    review_time timestamp DEFAULT now(),
+    CONSTRAINT product_review_fkey FOREIGN KEY (productid)
+        REFERENCES premier.product (productid),
+    CONSTRAINT product_review_loginid_fkey FOREIGN KEY (loginid)
+        REFERENCES premier.user_details (loginid)
 );
 
 -- Ingest the data
