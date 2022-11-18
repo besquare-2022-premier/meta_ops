@@ -1,6 +1,6 @@
 # Community API
 
-This page contain the information about the community access and manipulation endpoints. The base URL for this API is `/api/v1/community`. All the GET responses for this section are paginated.
+This page contain the information about the community access and manipulation endpoints. The base URL for this API is `/api/v1/community`. All the GET responses for this section are paginated also all the POST requests are CSRF and Authenticated.
 
 ## The schema for the messages
 
@@ -151,6 +151,40 @@ Example:
 </td><td>
 
 `/:topic/:message-id`
+
+</td><td> Get the message.
+Response:
+
+<table>
+<tr><th>HTTP Status</th><th>Description</th></tr>
+<tr><td>200</td><td>
+Emitted the request succeeded
+</td>
+</tr>
+<tr>
+<td>404</td>
+<td>The topic or message is not found
+
+Example:
+
+```json
+{
+  "status": 107,
+  "message": "Invalid or inexistant topic id"
+}
+```
+
+</tr></table>
+</td>
+</tr>
+<tr>
+<td>
+
+`GET`
+
+</td><td>
+
+`/:topic/:message-id/replies`
 
 </td><td> Get replies for a message.
 Response:
