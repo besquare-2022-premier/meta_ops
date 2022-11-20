@@ -30,6 +30,7 @@ The steps required to allocate a new error code is as below:
 | 104  | The order id given is not exists                      |
 | 105  | Password do not match                                 |
 | 106  | Invalid gender                                        |
+| 107  | Not existant topic or message                         |
 | 199  | Unknown content type, cannot be processed by endpoint |
 
 ## **2xx Error Codes**
@@ -46,6 +47,7 @@ The steps required to allocate a new error code is as below:
 | 208  | Email or username is already registered                         |
 | 209  | Cannot register and reauthenticate on the authenticated session |
 | 210  | One or more items are out of stock                              |
+| 211  | Inexistant Endpoint                                             |
 
 ## **3xx Error Codes**
 
@@ -55,5 +57,6 @@ The steps required to allocate a new error code is as below:
 
 ## **4xx Error Codes**
 
-| Code | Meaning |
-| ---- | ------- |
+| Code | Meaning                              |
+| ---- | ------------------------------------ |
+| 401  | Server failed to process the request |

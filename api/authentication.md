@@ -90,7 +90,7 @@ Payload:
   "password": "password",
   "password_again": "same pass",
   "address": "<optional>",
-  "telephone_number": "<optional>",
+  "telephone_number": "mandatory",
   "gender": "male",
   "birthday": "ddd<optional>",
   "secure_word": "ranndom"
