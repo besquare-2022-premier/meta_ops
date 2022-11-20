@@ -12,7 +12,7 @@ This page contain the information about the profile access and manipulation endp
   "username": "username", //mandatory
   "address": "address", //optional
   "residence": "", //optional
-  "telephone_number": "<optional>", //optional
+  "telephone_number": "<optional>", //mandatory
   "first_join": "ddd", //immutable,
   "gender": "male", //mandatory
   "birthday": "ddd" //optional,immutable
