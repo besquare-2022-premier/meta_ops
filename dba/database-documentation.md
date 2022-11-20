@@ -77,3 +77,23 @@
 - transactionid (FK) (integer) - references table transaction (transactionid)
 - product_rating ('1','2','3','4','5') - stores number of stars for that product
 - product_review (text) - stores comment from customers
+
+### 10. authentication_access_tokens
+
+- access_token (PK) (char(20)) - stores access token of user
+- loginid (FK) (integer) - references table user_details (loginid)
+- expiry (timestamp) - stores expiry time for access token
+
+### 11. community_topic
+
+- topicid (PK) (serial) - stores topic id
+- topic (text) - stores name of topic
+
+### 12. community_message
+
+- messageid (PK) (serial) - stores message id
+- topicid (FK) (integer) - references community_topic (topicid)
+- loginid (FK) (integer) - references user_details (loginid)
+- message_content (text) - stores content of message
+- message_time (timestamp) - stores timestamp of message
+- replying (FK) (integer) - references community_message (messageid)
