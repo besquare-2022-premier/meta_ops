@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS premier.transaction
     loginid integer NOT NULL,
     amount integer NOT NULL,
     payment_method text COLLATE pg_catalog."default",
-    tx_status premier.tx_status default  'created',
+    tx_status premier.tx_status default 'created',
     tx_time timestamp without time zone DEFAULT now(),
     tx_reference text NULL,
     tx_settle_time timestamp without time zone ,
@@ -196,6 +196,30 @@ CREATE TABLE premier.product_review
         REFERENCES premier.product (productid),
     CONSTRAINT product_review_loginid_fkey FOREIGN KEY (loginid)
         REFERENCES premier.user_details (loginid)
+);
+
+CREATE TABLE premier.community_topic
+(
+    topicid serial NOT NULL,
+    topic text NOT NULL,
+    CONSTRAINT community_topic_pkey PRIMARY KEY (topicid)
+);
+
+CREATE TABLE premier.community_message
+(
+    messageid serial NOT NULL,
+    topicid integer NOT NULL,
+    loginid integer NOT NULL,
+    message_content text NOT NULL,
+    message_time timestamp DEFAULT now(),
+    replying integer NOT NULL,
+    CONSTRAINT community_message_pkey PRIMARY KEY (messageid),
+    CONSTRAINT community_message_topicid_fkey FOREIGN KEY (topicid)
+        REFERENCES premier.community_topic (topicid),
+    CONSTRAINT community_message_loginid_fkey FOREIGN KEY (loginid)
+        REFERENCES premier.user_details (loginid),
+    CONSTRAINT community_replying_to_ref FOREIGN KEY (replying)
+        REFERENCES premier.community_message (messageid)
 );
 
 -- Ingest the data
