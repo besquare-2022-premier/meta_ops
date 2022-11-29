@@ -182,6 +182,7 @@ CREATE TABLE premier.authentication_access_tokens (
 
 CREATE VIEW premier.valid_access_tokens AS (SELECT * FROM premier.authentication_access_tokens WHERE expiry>=NOW());
 
+ALTER VIEW premier.valid_access_tokens ALTER COLUMN expiry SET DEFAULT NOW()+ INTERVAL '1 day';
 
 CREATE TYPE premier.rating AS ENUM ('1','2','3','4','5');
 
@@ -212,7 +213,7 @@ CREATE TABLE premier.community_message
     loginid integer NOT NULL,
     message_content text NOT NULL,
     message_time timestamp DEFAULT now(),
-    replying integer NOT NULL,
+    replying integer NULL,
     CONSTRAINT community_message_pkey PRIMARY KEY (messageid),
     CONSTRAINT community_message_topicid_fkey FOREIGN KEY (topicid)
         REFERENCES premier.community_topic (topicid),
