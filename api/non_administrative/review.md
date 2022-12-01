@@ -1,6 +1,6 @@
 # Review API
 
-This page contain the information about the review access and manipulation endpoints. The base URL for this API is `/api/v1/products-review`.
+This page contain the information about the review access and manipulation endpoints. The base URL for this API is `/api/v1/product-review`.
 
 ## The schema for the reviews
 
