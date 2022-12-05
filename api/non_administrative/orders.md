@@ -183,11 +183,12 @@ Example:
 ```json
 [
   {
-    "product": "id",
+    "product_id": "id",
     "product_name": "",
     "quantity": 200,
     "unit_price": 1200,
-    "available": false
+    "available": false,
+    "image": "...."
   }
 ]
 ```
